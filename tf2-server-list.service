@@ -1,0 +1,6 @@
+[Unit]
+Description=Update TF2 community server list on Discord
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/code/tf2-community-webhook/update.py

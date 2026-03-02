@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connecting...</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+    }
+    .card {
+      text-align: center;
+      padding: 3rem;
+      background: #16213e;
+      border-radius: 12px;
+      border: 1px solid #0f3460;
+      max-width: 420px;
+    }
+    h1 { font-size: 1.4rem; margin-bottom: 1rem; color: #cf7c00; }
+    p { margin-bottom: 1rem; line-height: 1.5; }
+    code {
+      display: inline-block;
+      background: #0f3460;
+      padding: .25rem .6rem;
+      border-radius: 4px;
+      font-size: .95rem;
+      user-select: all;
+    }
+    a {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: .6rem 1.4rem;
+      background: #cf7c00;
+      color: #1a1a2e;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    a:hover { background: #e08f1a; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Joining TF2 Server</h1>
+    <p>Launching Steam in <span id="countdown">3</span>s...</p>
+    <p>If nothing happens, open your TF2 console and run:</p>
+    <p><code id="cmd"></code></p>
+    <p><a id="manual" href="#">Launch manually</a></p>
+  </div>
+  <script>
+    const addr = new URLSearchParams(location.search).get("addr");
+    if (!addr) {
+      document.querySelector("h1").textContent = "Missing server address";
+      document.querySelector(".card p").textContent = "";
+    } else {
+      const steamUrl = "steam://connect/" + addr;
+      document.getElementById("cmd").textContent = "connect " + addr;
+      document.getElementById("manual").href = steamUrl;
+
+      let t = 3;
+      const el = document.getElementById("countdown");
+      const iv = setInterval(() => {
+        if (--t <= 0) {
+          clearInterval(iv);
+          location.href = steamUrl;
+        }
+        el.textContent = t;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
